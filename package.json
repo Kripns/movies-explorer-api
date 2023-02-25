@@ -1,0 +1,19 @@
+{
+  "name": "movies-explorer-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kripns/movies-explorer-api.git"
+  },
+  "author": "Petr Sidorov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kripns/movies-explorer-api/issues"
+  },
+  "homepage": "https://github.com/Kripns/movies-explorer-api#readme"
+}
