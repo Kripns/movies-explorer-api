@@ -12,7 +12,7 @@ router.patch('/me', celebrate({
       .string()
       .min(2)
       .max(30),
-    about: Joi
+    email: Joi
       .string()
       .min(2)
       .max(30),
