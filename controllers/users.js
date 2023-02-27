@@ -29,14 +29,11 @@ export function createUser(req, res, next) {
 
 export function login(req, res, next) {
   const { NODE_ENV, JWT_SECRET } = process.env;
+  const secretKey = NODE_ENV === 'production' ? JWT_SECRET : 'dev secret';
   const { email, password } = req.body;
   User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign(
-        { _id: user._id },
-        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
-        { expiresIn: '7d' },
-      );
+      const token = jwt.sign({ _id: user._id }, secretKey, { expiresIn: '7d' });
       return res.send({
         name: user.name,
         email: user.email,
