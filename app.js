@@ -10,6 +10,7 @@ import { errors } from 'celebrate';
 import { requestLogger, errorLogger } from './middlewares/logger';
 import routes from './routes/index';
 import centralizedErrorHandler from './middlewares/centralizedErrorHandler';
+import corsHandler from './middlewares/cors';
 
 const { PORT = 3000, DB_URL = 'mongodb://localhost:27017/bitfilmsdb' } = process.env;
 const app = express();
@@ -20,6 +21,8 @@ app.use(bodyParser);
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(requestLogger);
+
+app.use(corsHandler);
 
 app.use(routes);
 
