@@ -1,9 +1,9 @@
 const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
 const allowedCors = [
-  // 'https://psid.students.nomoredomains.work',
-  // 'http://psid.students.nomoredomains.work',
-  // 'https://api.psid.students.nomoredomains.work',
-  // 'http://api.psid.students.nomoredomains.work',
+  'https://movieexp.nomoredomains.work',
+  'http://movieexp.nomoredomains.work',
+  'https://api.movieexp.nomoredomains.work',
+  'http://api.movieexp.nomoredomains.work',
   'http://localhost:3000',
   'http://localhost:3001',
 ];
