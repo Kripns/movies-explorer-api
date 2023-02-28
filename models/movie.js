@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import isURL from 'validator/lib/isURL.js';
+import errorMessages from '../utils/errorMessages.js';
 
 const movieSchema = new mongoose.Schema({
   nameRU: {
@@ -35,7 +36,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validator: {
       validate: (v) => isURL(v),
-      message: 'Неправильный формат ссылки',
+      message: errorMessages.badUrl,
     },
   },
   trailerLink: {
@@ -43,7 +44,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validator: {
       validate: (v) => isURL(v),
-      message: 'Неправильный формат ссылки',
+      message: errorMessages.badUrl,
     },
   },
   thumbnail: {
@@ -51,7 +52,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validator: {
       validate: (v) => isURL(v),
-      message: 'Неправильный формат ссылки',
+      message: errorMessages.badUrl,
     },
   },
   owner: {

@@ -5,6 +5,7 @@ import auth from '../middlewares/auth.js';
 import userRouter from './users.js';
 import moviesRouter from './movies.js';
 import NotFoundError from '../utils/errors/not-found-error.js';
+import errorMessages from '../utils/errorMessages.js';
 
 const router = express.Router();
 
@@ -35,7 +36,7 @@ router.use('/users', userRouter);
 router.use('/movies', moviesRouter);
 
 router.use((req, res, next) => {
-  const err = new NotFoundError('Ошибка 404: Страница не найдена');
+  const err = new NotFoundError(errorMessages.noPage);
   next(err);
 });
 

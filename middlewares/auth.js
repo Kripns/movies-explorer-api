@@ -1,19 +1,21 @@
 import jwt from 'jsonwebtoken';
 import UnauthorizedError from '../utils/errors/unauthorized-error.js';
+import apiConfig from '../utils/apiConfig.js';
+import errorMessages from '../utils/errorMessages.js';
 
 export default function auth(req, res, next) {
   const { NODE_ENV, JWT_SECRET } = process.env;
-  const secretKey = NODE_ENV === 'production' ? JWT_SECRET : 'dev secret';
+  const secretKey = NODE_ENV === 'production' ? JWT_SECRET : apiConfig.devSecretKey;
   const { authorization } = req.headers;
   if (!authorization || !authorization.startsWith('Bearer ')) {
-    throw new UnauthorizedError('Необходима авторизация');
+    throw new UnauthorizedError(errorMessages.unauthErr);
   }
   const token = authorization.replace('Bearer ', '');
   let payload;
   try {
     payload = jwt.verify(token, secretKey);
   } catch (err) {
-    next(new UnauthorizedError('Необходима авторизация'));
+    next(new UnauthorizedError(errorMessages.unauthErr));
     return;
   }
   req.user = payload;

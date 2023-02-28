@@ -4,6 +4,8 @@ import NotFoundError from '../utils/errors/not-found-error.js';
 import BadRequestError from '../utils/errors/bad-request-error.js';
 import ConflictError from '../utils/errors/conflict-error.js';
 import User from '../models/user.js';
+import apiConfig from '../utils/apiConfig.js';
+import errorMessages from '../utils/errorMessages.js';
 
 export function createUser(req, res, next) {
   const { name, email, password } = req.body;
@@ -18,9 +20,9 @@ export function createUser(req, res, next) {
       }))
     .catch((err) => {
       if (err.code && err.code === 11000) {
-        next(new ConflictError('Пользователь с такой почтой уже зарегистрирован'));
+        next(new ConflictError(errorMessages.conflictErr));
       } else if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные'));
+        next(new BadRequestError(errorMessages.badData));
       } else {
         next(err);
       }
@@ -29,7 +31,7 @@ export function createUser(req, res, next) {
 
 export function login(req, res, next) {
   const { NODE_ENV, JWT_SECRET } = process.env;
-  const secretKey = NODE_ENV === 'production' ? JWT_SECRET : 'dev secret';
+  const secretKey = NODE_ENV === 'production' ? JWT_SECRET : apiConfig.devSecretKey;
   const { email, password } = req.body;
   User.findUserByCredentials(email, password)
     .then((user) => {
@@ -47,12 +49,12 @@ export function login(req, res, next) {
 export function getCurrentUser(req, res, next) {
   User.findById(req.user._id)
     .then((user) => {
-      if (!user) throw new NotFoundError('Запрашиваемый пользователь не найден');
+      if (!user) throw new NotFoundError(errorMessages.noUser);
       return res.send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequestError('Передан некорректный _id пользователя'));
+        next(new BadRequestError(errorMessages.badUserId));
       } else {
         next(err);
       }
@@ -63,16 +65,16 @@ export function updateUserInfo(req, res, next) {
   const { name, email } = req.body;
   User.findById(req.user._id)
     .then((user) => {
-      if (!user) throw new NotFoundError('Запрашиваемый пользователь не найден');
+      if (!user) throw new NotFoundError(errorMessages.noUser);
       User.findByIdAndUpdate(req.user._id, { name, email }, { new: true, runValidators: true })
         .then((updatedUser) => res.send(updatedUser))
         .catch(next);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequestError('Передан некорректный _id пользователя'));
+        next(new BadRequestError(errorMessages.badUserId));
       } else if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные'));
+        next(new BadRequestError(errorMessages.badData));
       } else {
         next(err);
       }

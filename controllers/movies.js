@@ -2,6 +2,7 @@ import Movie from '../models/movie.js';
 import BadRequestError from '../utils/errors/bad-request-error.js';
 import NotFoundError from '../utils/errors/not-found-error.js';
 import ForbiddenError from '../utils/errors/forbiden-error.js';
+import errorMessages from '../utils/errorMessages.js';
 
 export function getMovies(req, res, next) {
   return Movie.find({ owner: req.user._id })
@@ -42,7 +43,7 @@ export function createMovie(req, res, next) {
     .then((newMovie) => res.send(newMovie))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные'));
+        next(new BadRequestError(errorMessages.badData));
       } else {
         next(err);
       }
@@ -52,9 +53,9 @@ export function createMovie(req, res, next) {
 export function deleteMovie(req, res, next) {
   return Movie.findById(req.params.id)
     .then((movie) => {
-      if (!movie) throw new NotFoundError('Запрашиваемый фильм не найден');
+      if (!movie) throw new NotFoundError(errorMessages.noMovie);
       if (movie.owner.valueOf() !== req.user._id) {
-        throw new ForbiddenError('Недостаточно прав для удаления карточки');
+        throw new ForbiddenError(errorMessages.forbiddenErr);
       }
       Movie.findByIdAndRemove(movie._id)
         .then((removedMovie) => res.send(removedMovie))
@@ -62,7 +63,7 @@ export function deleteMovie(req, res, next) {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequestError('Получен некорректный _id карточки'));
+        next(new BadRequestError(errorMessages.badMovieId));
       } else {
         next(err);
       }

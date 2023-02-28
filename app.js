@@ -11,11 +11,12 @@ import { requestLogger, errorLogger } from './middlewares/logger.js';
 import routes from './routes/index.js';
 import centralizedErrorHandler from './middlewares/centralizedErrorHandler.js';
 import corsHandler from './middlewares/cors.js';
+import apiConfig from './utils/apiConfig.js';
 
-const { PORT = 3000, DB_URL = 'mongodb://localhost:27017/bitfilmsdb' } = process.env;
+const { NODE_ENV, PORT = 3000, DB_URL } = process.env;
 const app = express();
 
-mongoose.connect(DB_URL);
+mongoose.connect(NODE_ENV === 'production' ? DB_URL : apiConfig.devDbUrl);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
