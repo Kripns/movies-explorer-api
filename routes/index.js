@@ -8,6 +8,12 @@ import NotFoundError from '../utils/errors/not-found-error';
 
 const router = express.Router();
 
+router.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+
 router.post('/signup', celebrate({
   body: Joi.object().keys({
     name: Joi.string().required(),

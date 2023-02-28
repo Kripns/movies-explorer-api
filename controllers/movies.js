@@ -1,6 +1,7 @@
 import Movie from '../models/movie';
 import BadRequestError from '../utils/errors/bad-request-error';
 import NotFoundError from '../utils/errors/not-found-error';
+import ForbiddenError from '../utils/errors/forbiden-error';
 
 export function getMovies(req, res, next) {
   return Movie.find({ owner: req.user._id })
@@ -52,6 +53,9 @@ export function deleteMovie(req, res, next) {
   return Movie.findById(req.params.id)
     .then((movie) => {
       if (!movie) throw new NotFoundError('Запрашиваемый фильм не найден');
+      if (movie.owner.valueOf() !== req.user._id) {
+        throw new ForbiddenError('Недостаточно прав для удаления карточки');
+      }
       Movie.findByIdAndRemove(movie._id)
         .then((removedMovie) => res.send(removedMovie))
         .catch(next);
