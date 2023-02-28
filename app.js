@@ -9,6 +9,7 @@ import bodyParser from 'body-parser';
 import { errors } from 'celebrate';
 import { requestLogger, errorLogger } from './middlewares/logger';
 import routes from './routes/index';
+import centralizedErrorHandler from './middlewares/centralizedErrorHandler';
 
 const { PORT = 3000, DB_URL = 'mongodb://localhost:27017/bitfilmsdb' } = process.env;
 const app = express();
@@ -25,4 +26,6 @@ app.use(routes);
 app.use(errorLogger);
 
 app.use(errors());
+app.use(centralizedErrorHandler);
+
 app.listen(PORT);
