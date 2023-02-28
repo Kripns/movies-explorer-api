@@ -71,7 +71,9 @@ export function updateUserInfo(req, res, next) {
         .catch(next);
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
+      if (err.code && err.code === 11000) {
+        next(new ConflictError(errorMessages.conflictErr));
+      } else if (err.name === 'CastError') {
         next(new BadRequestError(errorMessages.badUserId));
       } else if (err.name === 'ValidationError') {
         next(new BadRequestError(errorMessages.badData));
