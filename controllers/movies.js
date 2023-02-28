@@ -25,7 +25,7 @@ export function createMovie(req, res, next) {
     movieId,
   } = req.body;
 
-  return Movie.create(
+  return Movie.create({
     nameRU,
     nameEN,
     country,
@@ -38,7 +38,7 @@ export function createMovie(req, res, next) {
     thumbnail,
     owner,
     movieId,
-  )
+  })
     .then((newMovie) => res.send(newMovie))
     .catch((err) => {
       if (err.name === 'ValidationError') {

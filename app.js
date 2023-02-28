@@ -17,7 +17,7 @@ const app = express();
 
 mongoose.connect(DB_URL);
 
-app.use(bodyParser);
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(requestLogger);
