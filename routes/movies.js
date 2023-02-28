@@ -1,7 +1,7 @@
 import express from 'express';
 import { celebrate, Joi } from 'celebrate';
-import urlPattern from '../utils/urlPattern';
-import { getMovies, createMovie, deleteMovie } from '../controllers/movies';
+import urlPattern from '../utils/urlPattern.js';
+import { getMovies, createMovie, deleteMovie } from '../controllers/movies.js';
 
 const router = express.Router();
 

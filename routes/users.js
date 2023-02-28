@@ -1,6 +1,6 @@
 import express from 'express';
 import { celebrate, Joi } from 'celebrate';
-import { getCurrentUser, updateUserInfo } from '../controllers/users';
+import { getCurrentUser, updateUserInfo } from '../controllers/users.js';
 
 const router = express.Router();
 

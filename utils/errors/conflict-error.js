@@ -1,4 +1,3 @@
-/* eslint-disable import/extensions */
 import { CONFLICT_ERROR_CODE } from '../errorCodes.js';
 
 class ConflictError extends Error {

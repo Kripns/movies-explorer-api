@@ -1,4 +1,3 @@
-/* eslint-disable import/extensions */
 import { FORBIDDEN_ERROR_CODE } from '../errorCodes.js';
 
 class ForbiddenError extends Error {

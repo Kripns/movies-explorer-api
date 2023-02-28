@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import NotFoundError from '../utils/errors/not-found-error';
-import BadRequestError from '../utils/errors/bad-request-error';
-import ConflictError from '../utils/errors/conflict-error';
-import User from '../models/user';
+import NotFoundError from '../utils/errors/not-found-error.js';
+import BadRequestError from '../utils/errors/bad-request-error.js';
+import ConflictError from '../utils/errors/conflict-error.js';
+import User from '../models/user.js';
 
 export function createUser(req, res, next) {
   const { name, email, password } = req.body;

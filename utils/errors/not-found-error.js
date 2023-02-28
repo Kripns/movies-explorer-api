@@ -1,4 +1,3 @@
-/* eslint-disable import/extensions */
 import { NOT_FOUND_ERROR_CODE } from '../errorCodes.js';
 
 class NotFoundError extends Error {

@@ -7,10 +7,10 @@ import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import { errors } from 'celebrate';
-import { requestLogger, errorLogger } from './middlewares/logger';
-import routes from './routes/index';
-import centralizedErrorHandler from './middlewares/centralizedErrorHandler';
-import corsHandler from './middlewares/cors';
+import { requestLogger, errorLogger } from './middlewares/logger.js';
+import routes from './routes/index.js';
+import centralizedErrorHandler from './middlewares/centralizedErrorHandler.js';
+import corsHandler from './middlewares/cors.js';
 
 const { PORT = 3000, DB_URL = 'mongodb://localhost:27017/bitfilmsdb' } = process.env;
 const app = express();
