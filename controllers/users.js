@@ -68,12 +68,16 @@ export function updateUserInfo(req, res, next) {
       if (!user) throw new NotFoundError(errorMessages.noUser);
       User.findByIdAndUpdate(req.user._id, { name, email }, { new: true, runValidators: true })
         .then((updatedUser) => res.send(updatedUser))
-        .catch(next);
+        .catch((err) => {
+          if (err.code && err.code === 11000) {
+            next(new ConflictError(errorMessages.conflictErr));
+          } else {
+            next(err);
+          }
+        });
     })
     .catch((err) => {
-      if (err.code && err.code === 11000) {
-        next(new ConflictError(errorMessages.conflictErr));
-      } else if (err.name === 'CastError') {
+      if (err.name === 'CastError') {
         next(new BadRequestError(errorMessages.badUserId));
       } else if (err.name === 'ValidationError') {
         next(new BadRequestError(errorMessages.badData));

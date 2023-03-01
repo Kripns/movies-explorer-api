@@ -1,5 +1,5 @@
 import express from 'express';
-import { celebrate, Joi } from 'celebrate';
+import { validateRegister, validateLogin } from '../middlewares/reqValidation.js';
 import { createUser, login } from '../controllers/users.js';
 import auth from '../middlewares/auth.js';
 import userRouter from './users.js';
@@ -15,20 +15,9 @@ router.get('/crash-test', () => {
   }, 0);
 });
 
-router.post('/signup', celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().required(),
-    email: Joi.string().email().required(),
-    password: Joi.string().required(),
-  }),
-}), createUser);
+router.post('/signup', validateRegister, createUser);
 
-router.post('/signin', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().email().required(),
-    password: Joi.string().required(),
-  }),
-}), login);
+router.post('/signin', validateLogin, login);
 
 router.use(auth);
 

@@ -1,22 +1,11 @@
 import express from 'express';
-import { celebrate, Joi } from 'celebrate';
 import { getCurrentUser, updateUserInfo } from '../controllers/users.js';
+import { validateUserInfo } from '../middlewares/reqValidation.js';
 
 const router = express.Router();
 
 router.get('/me', getCurrentUser);
 
-router.patch('/me', celebrate({
-  body: Joi.object().keys({
-    name: Joi
-      .string()
-      .min(2)
-      .max(30),
-    email: Joi
-      .string()
-      .min(2)
-      .max(30),
-  }),
-}), updateUserInfo);
+router.patch('/me', validateUserInfo, updateUserInfo);
 
 export default router;

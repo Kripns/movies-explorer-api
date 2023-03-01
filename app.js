@@ -1,8 +1,4 @@
-/* eslint-disable import/first */
 import * as dotenv from 'dotenv';
-
-dotenv.config();
-
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
@@ -14,6 +10,8 @@ import centralizedErrorHandler from './middlewares/centralizedErrorHandler.js';
 import corsHandler from './middlewares/cors.js';
 import limiter from './middlewares/rateLimiter.js';
 import apiConfig from './utils/apiConfig.js';
+
+dotenv.config();
 
 const { NODE_ENV, PORT = 3000, DB_URL } = process.env;
 const app = express();
